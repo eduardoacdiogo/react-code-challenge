@@ -1,0 +1,53 @@
+name: Deploy to gh-pages
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
+    steps:
+      - uses: actions/checkout@v4
+        name: Checkout
+      - uses: pnpm/action-setup@v4
+        name: Setup pnpm
+        with:
+          run_install: false
+          version: 9
+      - uses: actions/setup-node@v4
+        name: Install nodejs
+        with:
+          node-version: '20.15.0'
+          cache: 'pnpm'
+      - run: pnpm install
+        name: Install dependencies
+      - name: Build
+        run: pnpm build
+      - uses: actions/upload-pages-artifact@v3
+        name: Upload artifact
+        with:
+          path: 'dist'
+  deploy:
+    name: Deploy
+    needs: build
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

@@ -2,6 +2,11 @@
 
 React Code Challenge
 
+## Setup
+
+`pnpm i`
+`pnpm dev`
+
 ## Description
 
 Create an react front end that will list out items in the Documents.json. Allow a user to add, edit, and delete items.

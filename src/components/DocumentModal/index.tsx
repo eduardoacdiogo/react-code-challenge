@@ -32,7 +32,7 @@ export function DocumentModal({ document }: DocumentModalProps) {
       Title: document?.Title || '',
       Content: document?.Content || '',
       Author: document?.Author || '',
-      Date: document?.Author || '',
+      Date: document?.Date || '',
       Status: document?.Status || '',
     },
   })
